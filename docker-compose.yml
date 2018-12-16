@@ -1,0 +1,51 @@
+version: '3.3'
+
+services:
+   geoserver:
+     image: mgdigcufmg/rmmg-geoserver:prodemge-2018-12-10
+     ports:
+       - "8080:8080"
+     restart: always
+
+   db:
+     build:
+       context: ./mysql
+     command: --default-authentication-plugin=mysql_native_password
+     restart: always
+     ports:
+       - "3306:3306"
+     environment:
+       MYSQL_USER: rmmg
+       MYSQL_PASSWORD: rmmg
+       MYSQL_ROOT_PASSWORD: rmmg
+       MYSQL_DATABASE: rmmg-site
+      
+   wordpress:
+     build:
+       context: ./wordpress
+     depends_on:
+       - db
+       - geoserver
+     ports:
+       - "80:80"
+     links:
+       - db
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_USER: rmmg
+       WORDPRESS_DB_NAME: rmmg-site
+       WORDPRESS_DB_PASSWORD: rmmg
+       
+   phpmyadmin:
+     image: phpmyadmin/phpmyadmin
+     ports:
+       - "8090:80"
+     links:
+       - db:dbserver
+     environment:
+       - PMA_ARBITRARY=1
+       - PMA_HOST=dbserver
+       - TESTSUITE_PASSWORD=test123
+     depends_on:
+       - db
