@@ -36,16 +36,3 @@ services:
        WORDPRESS_DB_USER: rmmg
        WORDPRESS_DB_NAME: rmmg-site
        WORDPRESS_DB_PASSWORD: rmmg
-       
-   phpmyadmin:
-     image: phpmyadmin/phpmyadmin
-     ports:
-       - "8090:80"
-     links:
-       - db:dbserver
-     environment:
-       - PMA_ARBITRARY=1
-       - PMA_HOST=dbserver
-       - TESTSUITE_PASSWORD=test123
-     depends_on:
-       - db
