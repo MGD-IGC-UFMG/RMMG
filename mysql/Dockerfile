@@ -5,5 +5,5 @@ RUN cd /docker-entrypoint-initdb.d && \
     wget http://homologacao.minerais-mg.com.br/01-rmmg-site-dados.sql
 RUN cd /docker-entrypoint-initdb.d && \
     sed -i 's/\/rmmg-site/\/html/g' 01-rmmg-site-dados.sql && \
-    sed -i 's/homologacao.minerais-mg.com.br/127.0.0.1/g' 01-rmmg-site-dados.sql && \
-    sed -i 's/minerais-mg.com.br/127.0.0.1/g' 01-rmmg-site-dados.sql
+    sed -i "s/homologacao.minerais-mg.com.br/200.198.55.108/g" 01-rmmg-site-dados.sql && \
+    sed -i "s/minerais-mg.com.br/200.198.55.108/g" 01-rmmg-site-dados.sql
